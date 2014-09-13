@@ -1,10 +1,10 @@
 <?php
 
 	class cdd{
-		var $gstrHost = "localhost";
-		var $gstrDatabase = "diplomtest";
-		var $gstrUser = "richard";
-		var $gstrPassword = "richard";
+		var $gstrHost = "";
+		var $gstrDatabase = "";
+		var $gstrUser = "";
+		var $gstrPassword = "";
 		var $gstrVersion = "0.10";
 		
 		function cdd(){
