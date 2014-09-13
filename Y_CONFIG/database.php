@@ -15,7 +15,7 @@ $capsule->addConnection(array(
     'collation' => 'utf8_unicode_ci',
     'prefix'    => ''
 ));
- */
+ */	
  $capsule->addConnection(array(
     'driver'    => 'mysql',
     'host'      => 'localhost',
