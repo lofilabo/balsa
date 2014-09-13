@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<users>
+	<user>
+		<name>user1</name>
+		<pwd>user1</pwd>
+		<pri>1</pri>
+	</user>
+	<user>
+		<name>user2</name>
+		<pwd>user2</pwd>
+		<pri>2</pri>
+	</user>
+	<user>
+		<name>user3</name>
+		<pwd>user3</pwd>
+		<pri>3</pri>
+	</user>
+</users>
