@@ -22,20 +22,18 @@ class Gyousho extends Eloquent {
 */
 
 echo("Started...\n");
- 
-//$companydata = Companydata::find(1); 
-$gyousho = Gyousho::find(1)->toArray(); 
 
-var_dump($gyousho['field']);
+//$gyousho = Gyousho::find(1)->toArray();  
+//$gyousho = Gyousho::find(1)->toArray(); 
+//var_dump($gyousho['field']);
+for($i=0;$i<10;$i++){
+	$companydata = Companydata::find($i); 
+	var_dump($companydata->address);
+}
+//$companydata = Companydata::get(); 
+//$companydata->each(function($invar){var_dump($invar->address);});
 
-// Change some stuff 
-//$book->name = "The Best Book in the World";
-//$book->author = "Ed Zynda";
- 
 // Save it to the database
 //$book->save();
-
-
-
 
 error_reporting(0);
