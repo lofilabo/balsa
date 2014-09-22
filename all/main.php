@@ -16,7 +16,7 @@
 
 			if(count($args)>1){
 				//there is at least one cmd line argument.
-				echo("Args Exist\n");
+				//echo("Args Exist\n");
 
 				$i=0;
 				foreach($args as $arg){
@@ -25,6 +25,10 @@
 						// The SITE command.
 						// If no directory is given as an argument after the -s switch, 
 						// the present working diretory will be used.
+
+						echo("Deprecated.  Please clone from git (https://github.com/lofilabo/balsa.git)\n");
+						die;
+
 						$cwd = getcwd();
 						
 						if(sizeof($args) >($i+1)){
@@ -37,33 +41,30 @@
 						}
 
 						
-						$src = "C:\\EclipseProjects\\j4";
+						$src = "C:\\ProjectSource\\j4";
 						//$des = opendir (getcwd());	
 						$des = "/" . $newsitelocation;
 						//echo("site location: " . $newsitelocation . "\n");
 						//echo ("cwd: " . $cwd . "\n");
 						
+
+
 						$this->recurse_copy($src, $des);	
 						
 					}else{
 						if($arg==="-p"){
-							echo("its a new page.\n");
+							echo("Making new logic, control and template classes.\n");
 							echo("Page name: " . $args[$i+1] . "\n");
 							//the page command expects to be executed from the 
-							// ./all directory of the NEW SITE.  It sources the
-							//template files from the software INSTALL directory
+							// ./all directory of the NEW SITE. 
 							$cwd = realpath(dirname(__FILE__) . '/..');
-							$src = opendir("C:\\EclipseProjects\\j4");
 							$des = opendir ($cwd);	
-							//echo ("cwd: " . $cwd . "\n");
-													
 							$pClassname = $args[$i+1];
 							$mnp = new MakeNewPageClass();
 							$mnp->doMakeClassMgr($pClassname);
 
 						}
 					}
-					//echo($arg . "\n");
 					$i++;
 				}
 
@@ -77,7 +78,7 @@
 
 		function mainmenu(){
 			//TODO: Interactive main menu.
-			echo("Interactive Menu goes here");
+			echo("No switch.  Please specify -p [NewPageName]");
 		}
 
 		function recurse_copy($src,$dst) { 
