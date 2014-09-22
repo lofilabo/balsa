@@ -6,6 +6,10 @@
 		var $gobjDbSelect;
 		var $cdd;
 	
+		function __construct(){
+			//default constructor.
+		}
+
 		function q1(){
 			//this is a stub query.  You can make more
 			//of your own, and call them from (control)
