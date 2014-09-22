@@ -23,23 +23,27 @@ foreach($dirlist as $fname){
 	$curfile = $fname["name"];
 
 	if (  strpos($curfile, ".php")  ){
-		if( (strpos($curfile, "common_includes"))  || 
-			(strpos($curfile, "all"))  || 
-		    (strpos($curfile, "db_admin"))  || 
-			(strpos($curfile, "index.php"))  ||
-			(strpos($curfile, "cntrl.php"))  ||
-			(strpos($curfile, "logic.php"))  ||
-			(strpos($curfile, "base_control_c.php"))  ||
-			(strpos($curfile, "base_logic_l.php"))  ||
-			(strpos($curfile, "~"))
+  		if( 
+          (strpos($curfile, "common_includes"))  || 
+    			(strpos($curfile, "all"))  || 
+    		  (strpos($curfile, "db_admin"))  || 
+    			(strpos($curfile, "index.php"))  ||
+    			(strpos($curfile, "cntrl.php"))  ||
+    			(strpos($curfile, "logic.php"))  ||
+    			(strpos($curfile, "base_control_c.php"))  ||
+          (strpos($curfile, "base_logic_l.php"))  ||
+
+          //Leave these in the config unless you are using dbex to experiment with Eloquent.
+          (strpos($curfile, "dbex01.php"))  ||
+          (strpos($curfile, "vendor"))  ||
+          (strpos($curfile, "~"))
 			
 		){
 		
 		}else{
 			//print ($curfile);
 			//print ("<br/>");
-                        //print($curfile);
-			include($curfile) ;
+      include($curfile) ;
 		}
 
 	}
