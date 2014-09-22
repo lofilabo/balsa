@@ -18,7 +18,11 @@
 		var $z;
 				
 		function basic_c (){
+
+			$colors = new Colors();
 			
+			error_log ($colors->getColoredString("USEFUL OUTPUT 2", "purple", "yellow") . "\n"); 
+
 			$logic = new basic();
 
 			//for other data queries, we can explicitly call methods of the Logic class:
