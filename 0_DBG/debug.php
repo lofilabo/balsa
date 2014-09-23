@@ -30,7 +30,12 @@
 
 			$xml = simplexml_load_string($contents);
 			$contents= strip_tags($contents);
-			$contents = str_replace("=&gt;", "-<", $contents);
+			//$contents = str_replace("=&gt;", "-<", $contents);
+			$contents = str_replace("=&gt;", "  |  ", $contents);
+			$contents = str_replace("length=", "", $contents);
+			$contents = str_replace("      ", "        | ", $contents);
+			$contents = str_replace("size=", "", $contents);
+			//$contents = str_replace(chr(10), chr(10) . "        _______________________________" . chr(10), $contents);
 			error_log ($this->getColoredString($contents, "cyan", "black") . "\n"); 
 		}
 

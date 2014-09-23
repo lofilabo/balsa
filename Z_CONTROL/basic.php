@@ -31,7 +31,7 @@
 			$this->z = $logic->z;
 
 
-			error_log ($this->getColoredString("Useful Debugging Message", "light_green", "black") . "\n"); 
+			error_log ($colors->getColoredString("Useful Debugging Message", "light_green", "black") . "\n"); 
 
 			$arr=array();
 			$arr[0]=array('one-one' , 'one-two' , 'one-three');
