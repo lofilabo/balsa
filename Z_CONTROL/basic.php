@@ -2,8 +2,8 @@
 	/************************************************************************************************
 	The Control class.
 	Or rather, a subclass of the Control class with bits added.  The bits will usually consist of a 
-	class and a method with the same name as the file, because we learn to swallow CoC, we'll end up 
-	with XML all over our Server Faces.
+	class and a method with the same name as the file, because unless we learn to swallow CoC, we'll 
+	end	up with XML all over our Server Faces.
 
 	The line 
 		$logic = new basic();
@@ -21,7 +21,7 @@
 
 			$colors = new Colors();
 			
-			error_log ($colors->getColoredString("USEFUL OUTPUT 2", "purple", "yellow") . "\n"); 
+			//error_log ($colors->getColoredString("USEFUL OUTPUT 2", "purple", "yellow") . "\n"); 
 
 			$logic = new basic();
 
@@ -29,6 +29,15 @@
 			//$this->z=($logic->q1());
 
 			$this->z = $logic->z;
+
+
+			error_log ($this->getColoredString("Useful Debugging Message", "light_green", "black") . "\n"); 
+
+			$arr=array();
+			$arr[0]=array('one-one' , 'one-two' , 'one-three');
+			$arr[1]=array('two-one' , 'two-two' , 'two-three');
+			$arr[2]=array('three-one' , 'three-two' , 'three-three');
+			$colors->var_error_log($arr);
 
 			//this call must (i) always come last
 			//and (ii) must not change since it calls
