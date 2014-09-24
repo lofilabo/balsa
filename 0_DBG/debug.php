@@ -18,6 +18,59 @@
 	class Colors {
 
 
+		public function var_dump_parser($contents){
+
+			$arrContents = explode(  chr(10) , $contents );
+			$arrOut=array();
+			foreach($arrContents as $oneLine){
+				$changed = str_replace( "<", "-|TAG|- <", $oneLine );
+				$changed = str_replace("=&gt;", " -|GT|-", $changed);
+
+				$changed= strip_tags($changed);
+				//at this point, $changed holds an array of strings, each element of which holds a string.  
+				//This is quite an acceptable output, so we can always return here.
+
+				//Instead, let's make a more comprehensive array
+				//element 0 should say whether the line is debug data or debug metadata.
+				//WHAT DOES THAT MEAN?
+				//Here's a sample of the kind of data we might have at this moment:
+				/*
+				  0 => string '-|TAG|- ' (length=8)
+				  1 => string '-|TAG|- array-|TAG|-  -|TAG|- (size=3)-|TAG|- ' (length=46)
+				  2 => string '  0 -|TAG|-  -|GT|--|TAG|-  ' (length=28)
+				  3 => string '    -|TAG|- array-|TAG|-  -|TAG|- (size=3)-|TAG|- ' (length=50)
+				  4 => string '      0 -|TAG|-  -|GT|--|TAG|-  -|TAG|- string-|TAG|-  -|TAG|- 'one-one'-|TAG|-  -|TAG|- (length=7)-|TAG|- ' (length=107)
+				  5 => string '      1 -|TAG|-  -|GT|--|TAG|-  -|TAG|- string-|TAG|-  -|TAG|- 'one-two'-|TAG|-  -|TAG|- (length=7)-|TAG|- ' (length=107)
+				  6 => string '      2 -|TAG|-  -|GT|--|TAG|-  -|TAG|- string-|TAG|-  -|TAG|- 'one-three'-|TAG|-  -|TAG|- (length=9)-|TAG|- ' (length=109)
+				*/
+				//	it can be clearly seen that there are two kinds of lines: metadata lines (i.e, information about the array, 
+				//  starting with some indent spaces and a -|TAG|- )
+				//	and actual array data, starting with an array element definition (in this case, an integer.  This could itself be a Char String.)
+
+				/*
+				//sample GREP.
+				$patterns = array ('/(19|20)(\d{2})-(\d{1,2})-(\d{1,2})/','/^\s*{(\w+)}\s*=/');
+				$replace = array ('\3/\4/\1\2', '$\1 =');
+				$changed = preg_replace($patterns, $replace, $changed);
+				*/
+				$arrOut[] = $changed;
+			}
+			//during dbg dev, look at the state of the dbg array in the browser
+			//var_dump( $arrOut );
+			
+			//$contents= strip_tags($contents);
+			//$contents = str_replace("=&gt;", "-<", $contents);
+			//$contents = str_replace("=&gt;", "  |  ", $contents);
+			//$contents = str_replace("length=", "", $contents);
+			//$contents = str_replace("      ", "        | ", $contents);
+			//$contents = str_replace("size=", "", $contents);
+			//$contents = str_replace(chr(10), chr(10) . "        _______________________________" . chr(10), $contents);
+
+			$contents = implode("\n", $arrOut);
+			return $contents;
+
+		}
+
 		public function var_error_log( $object=null ){
 			/*Based on*/
 			/*http://justinsilver.com/technology/writing-to-the-php-error_log-with-var_dump-and-print_r/*/
@@ -27,16 +80,11 @@
 		    $contents = ob_get_contents(); // put the buffer into a variable
 		    ob_end_clean();                // end capture
 
+			$out = $this->var_dump_parser($contents);
 
-			$xml = simplexml_load_string($contents);
-			$contents= strip_tags($contents);
-			//$contents = str_replace("=&gt;", "-<", $contents);
-			$contents = str_replace("=&gt;", "  |  ", $contents);
-			$contents = str_replace("length=", "", $contents);
-			$contents = str_replace("      ", "        | ", $contents);
-			$contents = str_replace("size=", "", $contents);
-			//$contents = str_replace(chr(10), chr(10) . "        _______________________________" . chr(10), $contents);
-			error_log ($this->getColoredString($contents, "cyan", "black") . "\n"); 
+			error_log ($this->getColoredString($out, "cyan", "black") . "\n"); 
+
+
 		}
 
 
