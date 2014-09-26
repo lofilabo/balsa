@@ -22,6 +22,7 @@
 
 			$arrContents = explode(  chr(10) , $contents );
 			$arrOut=array();
+			$arrOutAll=array();
 			foreach($arrContents as $oneLine){
 				$changed = str_replace( "<", "-|TAG|- <", $oneLine );
 				$changed = str_replace("=&gt;", " -|GT|-", $changed);
@@ -53,10 +54,37 @@
 				$replace = array ('\3/\4/\1\2', '$\1 =');
 				$changed = preg_replace($patterns, $replace, $changed);
 				*/
-				$arrOut[] = $changed;
+
+				//let's make an array to hold each LINE, with metadata:
+				//	0 	dttype 	line type; 0=data item, 1=meta item
+				//	1 	spaces	leading spaces
+				//	2 	length 	length ( length=xx item strpped of brackets and length= statement)
+				//	3 	dtitem	data item with -|TAG|- markers removed 
+				$thisline = array();
+				
+				if( strpos( trim($changed) , "-|TAG|-")==0){
+					$thisline['dttype'] = 'meta';
+				}else{
+					$thisline['dttype'] = 'data';
+				}
+
+				$thisline['spaces'] = strlen($changed)-strlen(ltrim($changed));
+
+				preg_match_all( '/\((.*?)\)/' , $changed, $matches) ;
+				$thisline['length'] =  implode(' ', $matches[1]);
+
+				preg_match_all( '~(["\'])([^"\']+)\1~' , $changed, $matches) ;
+				$thisline['dtitem'] =  implode(' ', $matches[2]);				
+
+				var_dump($thisline);
+
+
+				$arrOut[] 		= $changed;
+				$arrOutAll[]	= $thisline;
 			}
 			//during dbg dev, look at the state of the dbg array in the browser
 			//var_dump( $arrOut );
+			//var_dump( $arrOutAll );
 			
 			//$contents= strip_tags($contents);
 			//$contents = str_replace("=&gt;", "-<", $contents);
@@ -65,9 +93,62 @@
 			//$contents = str_replace("      ", "        | ", $contents);
 			//$contents = str_replace("size=", "", $contents);
 			//$contents = str_replace(chr(10), chr(10) . "        _______________________________" . chr(10), $contents);
+			$switch=0;
 
-			$contents = implode("\n", $arrOut);
-			return $contents;
+			$totalString = "\n". $this->getColoredString("    Debug Dump                                        ", "black", "green") ."\n";
+			foreach ($arrOutAll as $arrOutOne) {
+
+
+
+				if($switch==0){
+					$metaColourF = "red";
+					$metaColourB = "black";
+					$dataColourF = "green";
+					$dataColourB = "black";
+				}else{
+					$metaColourF = "red";
+					$metaColourB = "black";
+					$dataColourF = "brown";
+					$dataColourB = "black";
+				}
+
+
+				//var_dump($arrOutOne);
+				if($arrOutOne['dttype']=='meta'){
+					if( strlen($arrOutOne['length']) > 0 ){
+						//$totalString = $totalString . "\n";
+						$paddingString = str_pad("" , $arrOutOne['spaces'] - 70);
+						$totalString = $totalString . $this->getColoredString(  $paddingString, $dataColourF, $dataColourB);
+						$totalString = $totalString . $this->getColoredString(  str_replace("size=",  "", $arrOutOne['length']  ), $metaColourF, $metaColourB);
+						$totalString = $totalString . $this->getColoredString(  str_pad($arrOutOne['dtitem'] , 10), $dataColourF, $dataColourB);
+						$totalString = $totalString . $this->getColoredString("", $metaColourF, $metaColourB);
+						$totalString = $totalString . "\n";
+					}
+					$switch=0;
+				}else{
+					if( strlen($arrOutOne['dtitem']) > 0 ){
+						//$totalString = $totalString . "\n";
+						$paddingString = str_pad("" , $arrOutOne['spaces'] - 0);
+						$totalString = $totalString . $paddingString;
+						//$totalString = $totalString . $this->getColoredString(  $paddingString, $dataColourF, $dataColourB);
+						$totalString = $totalString . $this->getColoredString(  str_pad($arrOutOne['dtitem'] , 70), $dataColourF, $dataColourB);
+						$totalString = $totalString . $this->getColoredString(  str_replace("length=",  "", $arrOutOne['length']  ), $dataColourF, $dataColourB);
+						$totalString = $totalString . "\n";
+
+						if($switch==0){
+							$switch=1;
+						}else{
+							$switch=0;
+						}
+					}
+				}
+
+			}
+
+			//$contents = implode("\n", $arrOutAll);
+			//$contents = implode("\n", $arrOut);
+			//return $contents;
+			return $totalString;
 
 		}
 
@@ -82,8 +163,8 @@
 
 			$out = $this->var_dump_parser($contents);
 
-			error_log ($this->getColoredString($out, "cyan", "black") . "\n"); 
-
+			//error_log ($this->getColoredString($out, "cyan", "black") . "\n"); 
+			error_log($out);
 
 		}
 
