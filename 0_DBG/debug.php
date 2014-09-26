@@ -117,7 +117,7 @@
 				if($arrOutOne['dttype']=='meta'){
 					if( strlen($arrOutOne['length']) > 0 ){
 						//$totalString = $totalString . "\n";
-						$paddingString = str_pad("" , $arrOutOne['spaces'] - 70);
+						$paddingString = str_pad("" , $arrOutOne['spaces'] - 0);
 						$totalString = $totalString . $this->getColoredString(  $paddingString, $dataColourF, $dataColourB);
 						$totalString = $totalString . $this->getColoredString(  str_replace("size=",  "", $arrOutOne['length']  ), $metaColourF, $metaColourB);
 						$totalString = $totalString . $this->getColoredString(  str_pad($arrOutOne['dtitem'] , 10), $dataColourF, $dataColourB);
